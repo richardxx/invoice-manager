@@ -46,7 +46,15 @@ mvn package
 & "D:/program/InvoiceManage/Run-InvoiceManage.ps1"
 ```
 
-没有把 Maven 加入 `PATH` 时，可用已有的本地 Maven 执行同样的构建命令。构建后也可运行项目根目录的 `InvoiceManager.cmd`。启动脚本使用 `work/run-cache/` 中经过校验的 JAR 副本，正在运行的软件不会因下一次构建而被替换；构建过程中不要直接运行 `target/` 下的 JAR。
+普通构建的文件名固定为 `target/invoce-manager.jar`。只有显式传入版本号时，才生成带版本号的文件，例如：
+
+```powershell
+mvn package -Dversion=1.5.13
+```
+
+这会生成 `target/invoce-manager-1.5.13.jar`。构建成功后，旧版 JAR 会被清理。桌面的 `InvoiceManage` 快捷方式调用项目中的启动脚本，每次寻找当前构建的 JAR；普通构建或带版本号的构建，都能从桌面启动最新一版。
+
+没有把 Maven 加入 `PATH` 时，可用已有的本地 Maven 执行同样的构建命令。也可从项目根目录运行 `InvoiceManager.cmd`。启动脚本使用 `work/run-cache/` 中经过校验的 JAR 副本，正在运行的软件不会因下一次构建而被替换；构建过程中不要直接运行 `target/` 下的 JAR。
 
 默认工作目录为 `%LOCALAPPDATA%/LocalInvoiceManager`。在 **设置 → 选项 → 系统** 中可改到新的空目录。软件会复制并校验旧数据，保留原目录，随后重启。`%LOCALAPPDATA%/InvoiceManageBootstrap` 只记录当前工作目录的位置。
 
@@ -78,6 +86,6 @@ mvn package
 - 目前收取的是 **PDF 发票**，ZIP 只是装票的容器。OFD/XML、云同步、审批、税务查验及会计申报尚不支持。
 - 识别出的开票方指销售方或出票单位；购买方、乘车人、报销归属人各是各的，不由软件擅自合并。
 - Windows 上，AI API Key 由当前用户的 DPAPI 保护，不进入备份；其他平台仅在当前会话中保留。备份和导出的 PDF、银行 `.xls` 文件本身**不加密**，请妥善保管。
-- `mvn package` 生成 `target/invoice-manager-1.5.12.jar`，并清理旧版及 `original-` 前缀的 JAR；不会打包应用或源码 ZIP。扫描件 OCR 需要 `tessdata/`。
+- `mvn package` 生成 `target/invoce-manager.jar`；带 `-Dversion=...` 时生成对应版本文件。构建会清理旧版及 `original-` 前缀的 JAR，不会打包应用或源码 ZIP。扫描件 OCR 需要 `tessdata/`。
 
 依赖与 OCR 模型署名见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；实现和测试细节见 [docs/system-design-v5.md](docs/system-design-v5.md)。软件的「帮助 → 使用方法」有图解；「帮助 → 关于」有六幅漫画。画面上点三下，它才肯自己往下演。

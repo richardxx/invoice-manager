@@ -9,6 +9,7 @@
   <properties>
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jar.file.name>invoce-manager</jar.file.name>
   </properties>
   <dependencies>
     <dependency>
@@ -59,6 +60,7 @@
     </dependency>
   </dependencies>
   <build>
+    <finalName>${jar.file.name}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -114,13 +116,16 @@
                 <fail unless="runnable.jar.exists" message="Runnable JAR is missing; old JARs were not removed."/>
                 <delete verbose="true">
                   <fileset dir="${project.build.directory}">
-                    <include name="invoice-manager-*.jar"/>
-                    <include name="original-invoice-manager-*.jar"/>
+                    <include name="invoce-manager*.jar"/>
+                    <include name="original-invoce-manager*.jar"/>
+                    <include name="invoice-manager*.jar"/>
+                    <include name="original-invoice-manager*.jar"/>
                     <exclude name="${project.build.finalName}.jar"/>
                   </fileset>
                 </delete>
                 <delete verbose="true" failonerror="false">
                   <fileset dir="${project.basedir}/work/run-cache" erroronmissingdir="false">
+                    <include name="invoce-manager*.jar"/>
                     <include name="invoice-manager-*.jar"/>
                   </fileset>
                 </delete>
@@ -131,4 +136,15 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>versioned-jar</id>
+      <activation>
+        <property><name>version</name></property>
+      </activation>
+      <properties>
+        <jar.file.name>invoce-manager-${version}</jar.file.name>
+      </properties>
+    </profile>
+  </profiles>
 </project>
