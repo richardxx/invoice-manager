@@ -1,0 +1,50 @@
+# Build output and local scratch files
+/target/
+/work/
+/build/
+/out/
+*.class
+*.jar
+*.log
+*.tmp
+*.argfile
+
+# Legacy packaged applications and release archives
+/dist/
+/release/
+/package-input/
+*.zip
+*.tar
+*.tar.gz
+*.exe
+*.msi
+
+# Local invoice data and backups
+/data/
+originals/
+staging/
+backups/
+run-cache/
+*.pdf
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.limbackup
+
+# Editor and operating-system files
+/.vscode/
+/.idea/
+/.settings/
+*.iml
+.classpath
+.project
+Thumbs.db
+.DS_Store
+
+# Local credentials
+.env
+.env.*
+*.key
+*.pem
